@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./styles.css";
 
 import MultiStepForm from "./MultiStepForm";
+
+import "./bootstrap-4.3.1-dist/css/bootstrap.min.css";
 
 function App() {
     return (
         <div className="app">
-            <div className="wrapper">
+            <div className="container-fluid">
                 <MultiStepForm />
             </div>
         </div>

@@ -11,11 +11,9 @@ const Review = ({ setForm, formData, navigation }) => {
 
     const { response, loading, error } = useAxios({
         method: 'post',
-        url: 'bonelli.php',
+        url: 'scraping.php',
         body: qs.stringify(formData),
     });
-
-    console.log(qs.stringify(formData));
 
     const [data, setData] = useState([]);
     const { next, previous } = navigation;
@@ -26,14 +24,25 @@ const Review = ({ setForm, formData, navigation }) => {
         }
     }, [response]);
 
-    console.log(response);
 
     return (
         <div className="div-step col-12 border border-dark">
-            Prova
+            
+            {loading ? (
+                <p>elaborazione...</p>
+            ) : (
+                <div>
+                    {error && (
+                        <div>
+                            <p>{error.message}</p>
+                        </div>
+                    )}
+                    <div>{data && <p>{data['editable'][0]['info']['cover_price']}</p>}</div>
+                </div>
+            )}
             <div>
-                <button onClick={previous}>Indietro</button>
-                <button onClick={next}>Avanti</button>
+                <button onClick={previous} className="btn btn-secondary">Indietro</button>
+                <button onClick={next} className="btn btn-primary">Avanti</button>
             </div>
         </div>
     );

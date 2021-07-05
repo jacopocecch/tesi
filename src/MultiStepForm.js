@@ -5,7 +5,7 @@ import Sites from "./Sites";
 import Info from "./Info";
 import Review from "./Review";
 
-import "./styles.css";
+import "./bootstrap-4.3.1-dist/css/bootstrap.min.css";
 
 const steps = [
     { id: "sites" },
@@ -20,12 +20,22 @@ const defaultData = {
     series: "",
     site_interval: "",
     dex_interval: "",
-    scrape_title: "",
-    date: "",
-    description: "",
-    contents: "",
-    authors: "",
-    cover: ""
+    title: "false",
+    date: true,
+    price: true,
+    description: true,
+    isbn: true,
+    pages: true,
+    format: true,
+    color: true,
+    binding: true,
+    contents: true,
+    authors: true,
+    personas: true,
+    cover: false,
+    partialUpdate: false,
+    comicset: false,
+    astorina_publication: "altro"
 };
 
 const MultiStepForm = ({ images }) => {

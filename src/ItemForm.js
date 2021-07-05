@@ -1,16 +1,16 @@
 import React from "react";
 
-const ItemForm = ({ label, children, type = "text", ...otherProps }) => (
-    <div>
+const ItemForm = ({ label, children, type = "text", div_class, ...otherProps }) => (
+    <div className={div_class}>
         {type === "text" ? (
             <>
-                <label>{label}</label>
-                <input type={type} {...otherProps} />
+                <label><b>{label}</b></label>
+                <input type={type} {...otherProps} className="form-control"/>
             </>
         ) : (
             <>
-                <label />
-                <input type={type} {...otherProps} />
+                <label className="form-check-label"/>
+                <input className="form-check-input" type={type} {...otherProps} />
                 {label}
             </>
         )}

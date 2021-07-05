@@ -2,10 +2,10 @@ import React from "react";
 
 const sites = [
     ['comicsbox', "Comicsbox"],
-    ["comicsbox-bonelli", "Comicsbox (Bonelli)"],
+    ["comicsbox_bonelli", "Comicsbox (Bonelli)"],
     ["animeclick", "Animeclick"],
-    ["fumetto-online", "Fumetto-Online"],
-    ["archivio-marvel", "Archivio Marvel Italia"],
+    ["fumetto_online", "Fumetto-Online"],
+    ["archivio_marvel", "Archivio Marvel Italia"],
     ["inducks", "Inducks"],
     ["bonelli", "Sergio Bonelli Editore"],
     ["astorina", "Astorina"]
@@ -14,7 +14,7 @@ const sites = [
 const SiteDrop = ({ label, ...others }) => (
     <>
         <label>{label}</label>
-        <select {...others}>
+        <select className="form-control" {...others}>
             {sites.map(([value, name]) => (
                 <option key={value} value={value}>{name}</option>
             ))}

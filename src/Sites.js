@@ -9,15 +9,17 @@ const Sites = ({ setForm, formData, navigation }) => {
     const { next } = navigation;
 
     return (
-        <div className="form">
-            <SiteDrop
-                label="Seleziona il sito"
-                name="site"
-                value={site}
-                onChange={setForm}
-            />
+        <div>
+            <div className="form-group">
+                <SiteDrop
+                    label="Seleziona il sito"
+                    name="site"
+                    value={site}
+                    onChange={setForm}
+                />
+            </div>
             <div>
-                <button onClick={next}>Avanti</button>
+                <button onClick={next} className="btn btn-primary">Avanti</button>
             </div>
         </div>
     );
