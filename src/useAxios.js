@@ -10,16 +10,29 @@ export const useAxios = ({ url, method, body = null, headers = null }) => {
     const [loading, setLoading] = useState(true);
 
     const fetchData = () => {
-        axios[method](url, body)
+        let unmounted = false;
+        let source = axios.CancelToken.source();
+        axios[method](url, body, { cancelToken: source.token })
             .then((res) => {
-                setResponse(res.data);
+                if(!unmounted){
+                    setResponse(res.data);
+                }
             })
             .catch((err) => {
-                setError(err);
+                if(!unmounted){
+                    setError(err);
+                    if(axios.isCancel(err)){
+                        console.log('Richiesta cancellata');
+                    }
+                }
             })
             .finally(() => {
                 setLoading(false);
             });
+        return function () {
+            unmounted = true;
+            source.cancel("Cleanup");
+        }
     };
 
     useEffect(() => {

@@ -4,6 +4,7 @@ import { useAxios } from "./useAxios";
 import { useState, useEffect } from 'react';
 
 import ItemForm from "./ItemForm";
+import ReviewForm from "./ReviewForm";
 
 const Review = ({ setForm, formData, navigation }) => {
 
@@ -26,10 +27,9 @@ const Review = ({ setForm, formData, navigation }) => {
 
 
     return (
-        <div className="div-step col-12 border border-dark">
-            
+        <div className="text-center">  
             {loading ? (
-                <p>elaborazione...</p>
+                <p>Elaborazione...</p>
             ) : (
                 <div>
                     {error && (
@@ -37,12 +37,18 @@ const Review = ({ setForm, formData, navigation }) => {
                             <p>{error.message}</p>
                         </div>
                     )}
-                    <div>{data && <p>{data['editable'][0]['info']['cover_price']}</p>}</div>
+                    <div>{ data && (
+                        data['status'] == 500 ? (
+                            <p>Errore: {data['statusText']}</p>
+                        ) : (
+                            <ReviewForm data={data.editable} />
+                        )
+                    )}</div>
                 </div>
             )}
-            <div>
-                <button onClick={previous} className="btn btn-secondary">Indietro</button>
-                <button onClick={next} className="btn btn-primary">Avanti</button>
+            <div className="text-center form-group">
+                <button onClick={previous} className="btn btn-secondary col-md-5 btn-lg mr-5 ml-5">Indietro</button>
+                <button onClick={next} className="btn btn-primary col-md-5 btn-lg mr-5 ml-5">Avanti</button>
             </div>
         </div>
     );

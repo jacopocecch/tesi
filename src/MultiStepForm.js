@@ -6,6 +6,7 @@ import Info from "./Info";
 import Review from "./Review";
 
 import "./bootstrap-4.3.1-dist/css/bootstrap.min.css";
+import "./style.css";
 
 const steps = [
     { id: "sites" },
@@ -38,7 +39,7 @@ const defaultData = {
     astorina_publication: "altro"
 };
 
-const MultiStepForm = ({ images }) => {
+const MultiStepForm = () => {
     const [formData, setForm] = useForm(defaultData);
     const { step, navigation } = useStep({ initialStep: 0, steps });
     const { id } = step;

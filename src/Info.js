@@ -22,9 +22,7 @@ const Info = ({ setForm, formData, navigation }) => {
     return (
         <div className="div-step col-12">
             <h1 className="text-center">
-                <a className="col-md-6" href={sites[site][1]} target="_blank">
-                    {sites[site][0]}
-                </a>
+                
                 <a className="col-md-6" href={sites[site][1]} target="_blank">
                     <img src={"./backend/logos/" + site + ".png"} alt="Logo" width="200" height="auto"/>
                 </a>
@@ -276,9 +274,9 @@ const Info = ({ setForm, formData, navigation }) => {
                     }
                 </div>
             </div>         
-            <div>
-                <button onClick={previous} className="btn btn-secondary">Indietro</button>
-                <button onClick={next} className="btn btn-primary">Avanti</button>
+            <div className="text-center form-group">
+                <button onClick={previous} className="btn btn-secondary col-md-5 btn-lg mr-5 ml-5">Indietro</button>
+                <button onClick={next} className="btn btn-primary col-md-5 btn-lg mr-5 ml-5">Avanti</button>
             </div>
         </div>
     );
@@ -343,4 +341,5 @@ function siteHasComicset(site){
 
     return (site == "animeclick" || site == "fumetto_online") ? true : false;
 }
+
 export default Info;
