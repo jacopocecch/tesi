@@ -109,135 +109,123 @@ const Info = ({ setForm, formData, navigation }) => {
                     }
                     <div className="form-group">
                         {siteHasDate(site) && 
-                            <div className="form-check">
-                                <ItemForm
-                                    label="Data"
-                                    name="date"
-                                    type="checkbox"
-                                    value={date}
-                                    defaultChecked
-                                    onChange={setForm}
-                                />
-                            </div>
+                            <ItemForm
+                                label="Data"
+                                name="date"
+                                type="checkbox"
+                                value={date}
+                                defaultChecked
+                                onChange={setForm}
+                                div_class="form-check"
+                            />
                         }
                         {siteHasPrice(site) && 
-                            <div className="form-check">
-                                <ItemForm
-                                    label="Prezzo"
-                                    name="price"
-                                    type="checkbox"
-                                    value={price}
-                                    defaultChecked
-                                    onChange={setForm}
-                                />
-                            </div>
+                            <ItemForm
+                                label="Prezzo"
+                                name="price"
+                                type="checkbox"
+                                value={price}
+                                defaultChecked
+                                onChange={setForm}
+                                div_class="form-check"
+                            />
                         }
                         {siteHasDescription(site) && 
-                            <div className="form-check">
-                                <ItemForm
-                                    label="Descrizione"
-                                    name="description"
-                                    type="checkbox"
-                                    checked={description}
-                                    onChange={setForm}
-                                />
-                            </div>
+                            <ItemForm
+                                label="Descrizione"
+                                name="description"
+                                type="checkbox"
+                                checked={description}
+                                onChange={setForm}
+                                div_class="form-check"
+                            />
                         }
                         {siteHasISBN(site) && 
-                            <div className="form-check">
-                                <ItemForm
-                                    label="ISBN"
-                                    name="isbn"
-                                    type="checkbox"
-                                    checked={isbn}
-                                    onChange={setForm}
-                                />
-                            </div>
+                            <ItemForm
+                                label="ISBN"
+                                name="isbn"
+                                type="checkbox"
+                                checked={isbn}
+                                onChange={setForm}
+                                div_class="form-check"
+                            />
                         }
                         {siteHasPages(site) && 
-                            <div className="form-check">
-                                <ItemForm
-                                    label="Pagine"
-                                    name="pages"
-                                    type="checkbox"
-                                    checked={pages}
-                                    onChange={setForm}
-                                />
-                            </div>
+                            <ItemForm
+                                label="Pagine"
+                                name="pages"
+                                type="checkbox"
+                                checked={pages}
+                                onChange={setForm}
+                                div_class="form-check"
+                            />
                         }
                         {siteHasFormat(site) && 
-                            <div className="form-check">
-                                <ItemForm
-                                    label="Formato"
-                                    name="format"
-                                    type="checkbox"
-                                    checked={format}
-                                    onChange={setForm}
-                                />
-                            </div>
+                            <ItemForm
+                                label="Formato"
+                                name="format"
+                                type="checkbox"
+                                checked={format}
+                                onChange={setForm}
+                                div_class="form-check"
+                            />
                         }
                         {siteHasColor(site) && 
-                            <div className="form-check">
-                                <ItemForm
-                                    label="Colore"
-                                    name="color"
-                                    type="checkbox"
-                                    checked={color}
-                                    onChange={setForm}
-                                />
-                            </div>
+                            <ItemForm
+                                label="Colore"
+                                name="color"
+                                type="checkbox"
+                                checked={color}
+                                onChange={setForm}
+                                div_class="form-check"
+                            />
                         }
                         {siteHasBinding(site) && 
-                            <div className="form-check">
-                                <ItemForm
-                                    label="Rilegatura"
-                                    name="binding"
-                                    type="checkbox"
-                                    checked={binding}
-                                    onChange={setForm}
-                                />
-                            </div>
+                            <ItemForm
+                                label="Rilegatura"
+                                name="binding"
+                                type="checkbox"
+                                checked={binding}
+                                onChange={setForm}
+                                div_class="form-check"
+                            />
                         }
                         {siteHasAuthors(site) && 
-                            <div className="form-check">
-                                <ItemForm
-                                    label="Autori"
-                                    name="authors"
-                                    type="checkbox"
-                                    checked={authors}
-                                    onChange={setForm}
-                                />
-                            </div>
+                            <ItemForm
+                                label="Autori"
+                                name="authors"
+                                type="checkbox"
+                                checked={authors}
+                                onChange={setForm}
+                                div_class="form-check"
+                            />
                         }
                         {siteHasPersonas(site) && 
-                            <div className="form-check">
-                                <ItemForm
-                                    label="Personaggi"
-                                    name="personas"
-                                    type="checkbox"
-                                    checked={personas}
-                                    onChange={setForm}
-                                />
-                            </div>
+                            <ItemForm
+                                label="Personaggi"
+                                name="personas"
+                                type="checkbox"
+                                checked={personas}
+                                onChange={setForm}
+                                div_class="form-check"
+                            />
                         }
-                        <div className="form-check">
-                            <ItemForm
-                                label="Copertina"
-                                name="cover"
-                                type="checkbox"
-                                checked={cover}
-                                onChange={setForm}
-                            />
-                        </div>
-                        <div className="form-check">
-                            <ItemForm
-                                label="Sovrascrivi dati"
-                                name="partialUpdate"
-                                type="checkbox"
-                                checked={partialUpdate}
-                                onChange={setForm}
-                            />
-                        </div>
+                        <ItemForm
+                            label="Copertina"
+                            name="cover"
+                            type="checkbox"
+                            checked={cover}
+                            onChange={setForm}
+                            div_class="form-check"
+                        />
+                        <ItemForm
+                            label="Sovrascrivi dati"
+                            name="partialUpdate"
+                            type="checkbox"
+                            checked={partialUpdate}
+                            onChange={setForm}
+                            div_class="form-check"
+                        />
                     </div>
                     {site == "astorina" && 
                         <div className="form-check form-group">

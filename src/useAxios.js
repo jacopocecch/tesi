@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-axios.defaults.baseURL = '/backend/actions/';
+axios.defaults.baseURL = 'http://localhost:81/backend/actions/';
 
 
 export const useAxios = ({ url, method, body = null, headers = null }) => {
@@ -10,29 +10,17 @@ export const useAxios = ({ url, method, body = null, headers = null }) => {
     const [loading, setLoading] = useState(true);
 
     const fetchData = () => {
-        let unmounted = false;
-        let source = axios.CancelToken.source();
-        axios[method](url, body, { cancelToken: source.token })
+        axios[method](url, body)
             .then((res) => {
-                if(!unmounted){
-                    setResponse(res.data);
-                }
+                setResponse(res.data);
+                console.log(res.data);
             })
             .catch((err) => {
-                if(!unmounted){
-                    setError(err);
-                    if(axios.isCancel(err)){
-                        console.log('Richiesta cancellata');
-                    }
-                }
+                setError(err);
             })
             .finally(() => {
                 setLoading(false);
             });
-        return function () {
-            unmounted = true;
-            source.cancel("Cleanup");
-        }
     };
 
     useEffect(() => {

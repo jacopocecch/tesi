@@ -1,6 +1,6 @@
 import React from "react";
 
-import SiteDrop from "./SiteDrop";
+import SelectDrop from "./SelectDrop";
 
 const Sites = ({ setForm, formData, navigation }) => {
 
@@ -9,17 +9,21 @@ const Sites = ({ setForm, formData, navigation }) => {
     const { next } = navigation;
 
     return (
-        <div>
+        <div className= "col-12 pt-3">
+            <h1 className="text-center">
+                ComiXtime Scraping
+            </h1>
             <div className="form-group">
-                <SiteDrop
+                <SelectDrop
                     label="Seleziona il sito"
                     name="site"
                     value={site}
                     onChange={setForm}
+                    type="sites"
                 />
             </div>
-            <div>
-                <button onClick={next} className="btn btn-primary">Avanti</button>
+            <div className="text-center form-group">
+                <button onClick={next} className="btn btn-primary col-md-12 btn-lg">Avanti</button>
             </div>
         </div>
     );

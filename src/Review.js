@@ -6,9 +6,20 @@ import { useState, useEffect } from 'react';
 import ItemForm from "./ItemForm";
 import ReviewForm from "./ReviewForm";
 
+const sites = {
+    "comicsbox" : ["Comicsbox", "https://www.comicsbox.it/"],
+    "comicsbox_bonelli" : ["Comicsbox (Bonelli)", "https://www.comicsbox.it/"],
+    "animeclick" : ["Animeclick", "https://www.animeclick.it/"],
+    "fumetto_online" : ["Fumetto-Online", "https://www.fumetto-online.it/it/"],
+    "archivio_marvel" : ["Archivio Marvel Italia", "http://www.archivioitaliamarvel.com/cgi-bin/magazinedb_mobile.pl?action=elencoeditori"],
+    "inducks" : ["Inducks", "https://inducks.org/country.php?c=it"],
+    "bonelli" : ["Sergio Bonelli Editore", "https://www.sergiobonelli.it/sezioni/43/fumetti?tag_0=1&noinit=true&tag_2=%5B%20TO%20now%5D&sortElement=tag_2,true&page=1&sortDefault=false"],
+    "astorina" : ["Astorina", "https://www.diabolik.it/commerce/"]
+};
+
 const Review = ({ setForm, formData, navigation }) => {
 
-    //const { link, series, site_interval, dex_interval, scrape_title, date, description, contents, authors, cover } = formData;
+    const { site } = formData;
 
     const { response, loading, error } = useAxios({
         method: 'post',
@@ -27,19 +38,25 @@ const Review = ({ setForm, formData, navigation }) => {
 
 
     return (
-        <div className="text-center">  
+        <div className= "col-12 pt-3">  
+            <h1 className="text-center">
+                
+                <a className="col-md-6" href={sites[site][1]} target="_blank">
+                    <img src={"./backend/logos/" + site + ".png"} alt="Logo" width="200" height="auto"/>
+                </a>
+            </h1>
             {loading ? (
-                <p>Elaborazione...</p>
+                <p className="text-secondary display-4 text-center">Elaborazione...</p>
             ) : (
                 <div>
                     {error && (
                         <div>
-                            <p>{error.message}</p>
+                            <p className="text-danger">{error.message}</p>
                         </div>
                     )}
                     <div>{ data && (
                         data['status'] == 500 ? (
-                            <p>Errore: {data['statusText']}</p>
+                            <p className="text-danger">Errore: {data['statusText']}</p>
                         ) : (
                             <ReviewForm data={data.editable} />
                         )
