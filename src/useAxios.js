@@ -13,7 +13,6 @@ export const useAxios = ({ url, method, body = null, headers = null }) => {
         axios[method](url, body)
             .then((res) => {
                 setResponse(res.data);
-                console.log(res.data);
             })
             .catch((err) => {
                 setError(err);

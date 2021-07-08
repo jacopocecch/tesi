@@ -6,38 +6,118 @@ import { useForm } from "react-hooks-helper";
 import ItemForm from "./ItemForm"
 import SelectDrop from "./SelectDrop"
 
-const IssueForm = ({ value, index, reviewData, setReviewData }) => {	
+const IssueForm = (props) => {	
+
+	const { value, index, onChange } = props;
+
+	console.log(value);
+
+	const [title, setTitle] = useState(undefined);
+	const [subtitle, setSubtitle] = useState(undefined);
+	const [releaseDate, setReleaseDate] = useState(undefined);
+	const [coverPrice, setCoverPrice] = useState(undefined);
+	const [coverPriceCurrency, setCoverPriceCurrency] = useState(undefined);
+	const [description, setDescription] = useState(undefined);
+	const [isbn, setIsbn] = useState(undefined);
+	const [pages, setPages] = useState(undefined);
+	const [height, setHeight] = useState(undefined);
+	const [width, setWidth] = useState(undefined);
+	const [color, setColor] = useState(undefined);
+	const [binding, setBinding] = useState(undefined);
+	const [image, setImage] = useState(undefined);
+	const [authors, setAuthors] = useState([]);
+	const [personas, setPersonas] = useState([]);
+
+
+	useEffect(() => {
+		if(value.info){
+			setTitle(value.info.title);
+			setSubtitle(value.info.subtitle);
+			setReleaseDate(value.info.release_date);
+			setCoverPrice(value.info.cover_price);
+			setCoverPriceCurrency(value.info.cover_price_currency);
+			setDescription(value.info.description);
+			setIsbn(value.info.isbn);
+			setPages(value.info.pages);
+			setHeight(value.info.height);
+			setWidth(value.info.width);
+			setColor(value.info.id_color);
+			setBinding(value.info.id_binding);
+			setAuthors(value.info.id_authors ? value.info.id_authors : []);
+			setPersonas(value.info.id_personas ? value.info.id_personas : []);
+		}
+		if(value.image){
+			setImage(value.image.image);
+		}
+	}, [value])
+
+	useEffect(() => {
+		onChange({
+			id: value.id,
+			number: value.number,
+			series: value.series,
+			title: value.title,
+			update: value.update,
+			info: {
+				title: title,
+				subtitle: subtitle,
+				release_date: releaseDate,
+				cover_price: coverPrice,
+				cover_price_currency: coverPriceCurrency,
+				description: description,
+				isbn: isbn,
+				pages: pages,
+				height: height,
+				width: width,
+				id_color: color,
+				id_binding: binding,
+				id_authors: authors,
+				id_personas: personas
+				},
+			image: {
+				image: image,
+				remove_image: false
+				}
+			}
+			, index);
+	}, [title])
 
 	return (
 		<div className="form-group col-md-12 float-left form-confirm">
-			<h3>Albo ID {reviewData[index].id}</h3>
-			{typeof value.info.title !== 'undefined' && 
+			<h3>{value.title} (ID {value.id})</h3>
+			{typeof title !== 'undefined' && 
 				<ItemForm
 	                label="Titolo"
-	                name={index + ".info.title"}
+	                name='title'
 	                type="text"
-	                value={value.info.title}
-	                onChange={setReviewData}
+	                value={title}
+	                onChange={(e) => {
+	                	setTitle(e.target.value)
+	                }}
 	                div_class="col-md-12 float-left form-group"
             	/>
-           	}
+            }
            	{typeof value.info.subtitle !== 'undefined' && 
 				<ItemForm
 	                label="Sottotitolo"
-	                name={index + ".info.subtitle"}
+	                name='subtitle'
 	                type="text"
-	                value={value.info.subtitle}
-	                onChange={setReviewData}
+	                value={subtitle}
+	                onChange={(e) => {
+	                	setSubtitle(e.target.value)
+	                }}
 	                div_class="col-md-12 float-left form-group"
             	/>
            	}
            	{typeof value.info.release_date !== 'undefined' && 
 				<ItemForm
 	                label="Data di uscita"
-	                name={index + ".info.release_date"}
+	                name='release_date'
 	                type="date"
-	                value={value.info.release_date}
-	                onChange={setReviewData}
+	                value={releaseDate}
+	                onChange={(e) => {
+	                	setReleaseDate(e.target.value)
+	                }}
 	                div_class="col-md-12 float-left form-group"
             	/>
            	}
@@ -49,29 +129,35 @@ const IssueForm = ({ value, index, reviewData, setReviewData }) => {
 		       			<label className="form-check-label"><b>Valuta</b></label>
 		       			<ItemForm
 		                    label="&euro;"
-		                    name={index + ".info.cover_price_currency"}
+		                    name='cover_price_currency'
 		                    type="radio"
 		                    value='EUR'
-		                    defaultChecked={value.info.cover_price_currency === 'EUR'}
-		                    onChange={setReviewData}
+		                    defaultChecked={coverPriceCurrency === 'EUR'}
+		                    onChange={(e) => {
+			                	setCoverPriceCurrency(e.target.value)
+			                }}
 		                    div_class="form-check"
 		                />
 		                <ItemForm
 		                    label="&#8356;"
-		                    name={index + ".info.cover_price_currency"}
+		                    name='cover_price_currency'
 		                    type="radio"
 		                    value='LIT'
-		                    defaultChecked={value.info.cover_price_currency === 'LIT'}
-		                    onChange={setReviewData}
+		                    defaultChecked={coverPriceCurrency === 'LIT'}
+		                    onChange={(e) => {
+			                	setCoverPriceCurrency(e.target.value)
+			                }}
 		                    div_class="form-check "
 		                />
 		            </div>
 					<ItemForm
 			            label="Prezzo"
-			            name={index + ".info.cover_price"}
+			            name='cover_price'
 			            type="text"
-			            value={value.info.cover_price}
-			            onChange={setReviewData}
+			            value={coverPrice}
+			            onChange={(e) => {
+		                	setCoverPrice(e.target.value)
+		                }}
 			            div_class="col-md-12 float-left form-group"
 		        	/>
 		       	</>
@@ -80,30 +166,36 @@ const IssueForm = ({ value, index, reviewData, setReviewData }) => {
 			{typeof value.info.description !== 'undefined' && 
 				<ItemForm
 	                label="Descrizione"
-	                name={index + ".info.description"}
+	                name='description'
 	                type="textarea"
-	                value={value.info.description}
-	                onChange={setReviewData}
+	                value={description}
+	                onChange={(e) => {
+	                	setDescription(e.target.value)
+	                }}
 	                div_class="col-md-12 float-left form-group"
             	/>
            	}
            	{typeof value.info.isbn !== 'undefined' && 
 				<ItemForm
 	                label="ISBN"
-	                name={index + ".info.isbn"}
+	                name='isbn'
 	                type="text"
-	                value={value.info.isbn}
-	                onChange={setReviewData}
+	                value={isbn}
+	                onChange={(e) => {
+	                	setIsbn(e.target.value)
+	                }}
 	                div_class="col-md-12 float-left form-group"
             	/>
            	}
            	{typeof value.info.pages !== 'undefined' && 
 				<ItemForm
 	                label="Pagine"
-	                name={index + ".info.pages"}
+	                name="pages"
 	                type="text"
-	                value={value.info.pages}
-	                onChange={setReviewData}
+	                value={pages}
+	                onChange={(e) => {
+	                	setPages(e.target.value)
+	                }}
 	                div_class="col-md-12 float-left form-group"
             	/>
            	}
@@ -112,18 +204,22 @@ const IssueForm = ({ value, index, reviewData, setReviewData }) => {
            	    <>
 					<ItemForm
 		                label="Altezza"
-		                name={index + ".info.height"}
+		                name="height"
 		                type="text"
-		                value={value.info.height}
-		                onChange={setReviewData}
+		                value={height}
+		                onChange={(e) => {
+		                	setHeight(e.target.value)
+		                }}
 		                div_class="col-md-12 float-left form-group"
 	            	/>
 	            	<ItemForm
 		                label="Larghezza"
-		                name={index + ".info.width"}
+		                name="width"
 		                type="text"
-		                value={value.info.width}
-		                onChange={setReviewData}
+		                value={width}
+		                onChange={(e) => {
+		                	setWidth(e.target.value)
+		                }}
 		                div_class="col-md-12 float-left form-group"
 	            	/>
 	            </>
@@ -132,18 +228,22 @@ const IssueForm = ({ value, index, reviewData, setReviewData }) => {
            	{typeof value.info.id_color !== 'undefined' && 
 				<SelectDrop
                     label="Colore"
-                    name={index + ".info.id_color"}
-                    value={value.info.id_color}
-                    onChange={setReviewData}
+                    name="id_color"
+                    value={color}
+                    onChange={(e) => {
+	                	setColor(e.target.value)
+	                }}
                     type="colors"
                 />
            	}
            	{typeof value.info.id_binding !== 'undefined' && 
 				<SelectDrop
                     label="Rilegatura"
-                    name={index + ".info.id_binding"}
-                    value={value.info.id_binding}
-                    onChange={setReviewData}
+                    name="id_binding"
+                    value={binding}
+                    onChange={(e) => {
+	                	setBinding(e.target.value)
+	                }}
                     type="bindings"
                 />
            	}
@@ -151,14 +251,16 @@ const IssueForm = ({ value, index, reviewData, setReviewData }) => {
            		<div className="form-group">
 					<ItemForm
 		                label="Copertina"
-		                name={index + ".image.image"}
+		                name="image"
 		                type="text"
-		                value={value.image.image}
-		                onChange={setReviewData}
+		                value={image}
+		                onChange={(e) => {
+		                	setImage(e.target.value)
+		                }}
 		                div_class="col-md-12 float-left form-group"
 	            	/>
 	            	<img
-	            		src={value.image.image}
+	            		src={image}
 	            		width="200px"
 	            		className="col-md-3"
 	            	/>

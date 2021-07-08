@@ -15,7 +15,7 @@ const sites = {
 
 const Info = ({ setForm, formData, navigation }) => {
 
-    const { site, link, series, site_interval, dex_interval, scrape_title, date, price, description, isbn, pages, format, color, binding, contents, authors, personas, cover, partialUpdate, comicset, astorina_publication } = formData;
+    const { site, link, series, site_interval, dex_interval, scrape_title, date, price, description, isbn, pages, format, color, binding, contents, authors, personas, cover, partialUpdate, astorina_publication } = formData;
 
     const { next, previous } = navigation;
 
@@ -24,7 +24,7 @@ const Info = ({ setForm, formData, navigation }) => {
             <h1 className="text-center">
                 
                 <a className="col-md-6" href={sites[site][1]} target="_blank">
-                    <img src={"./backend/logos/" + site + ".png"} alt="Logo" width="200" height="auto"/>
+                    <img src={"http://localhost:81/backend/logos/" + site + ".png"} alt={sites[site][0]} width="200" height="auto"/>
                 </a>
             </h1>
             <div className="form-row">
@@ -62,25 +62,6 @@ const Info = ({ setForm, formData, navigation }) => {
             <div className="col">
                 <div className="form-group col-md-12 float-left form-confirm">
                     <p><b>Operazione sui dati</b></p>
-                    {siteHasComicset(site) && 
-                        <div className="form-check form-group">
-                            <ItemForm
-                                label="Collana"
-                                name="comicset"
-                                type="radio"
-                                value='true'
-                                defaultChecked
-                                onChange={setForm}
-                            />
-                            <ItemForm
-                                label="Serie"
-                                name="comicset"
-                                type="radio"
-                                value='false'
-                                onChange={setForm}
-                            />
-                        </div>
-                    }
                     {siteHasTitle(site) && 
                         <div className="form-check form-group">
                             <ItemForm
@@ -323,11 +304,6 @@ function siteHasAuthors(site){
 function siteHasPersonas(site){
 
     return (site == "inducks") ? true : false;
-}
-
-function siteHasComicset(site){
-
-    return (site == "animeclick" || site == "fumetto_online") ? true : false;
 }
 
 export default Info;

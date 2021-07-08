@@ -26,7 +26,7 @@ const bindings = [
 ];
 
 const SelectDrop = ({ label, type, ...others }) => (
-    <div className="form-group col-md-12">
+    <div className="form-group float-left col-md-12">
         <label><b>{label}</b></label>
         <select className="form-control" {...others}>
             {(type === 'sites') ? (

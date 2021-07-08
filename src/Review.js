@@ -17,7 +17,9 @@ const sites = {
     "astorina" : ["Astorina", "https://www.diabolik.it/commerce/"]
 };
 
-const Review = ({ setForm, formData, navigation }) => {
+const Review = (props) => {
+
+    const { formData, setForm, navigation, onChange, setScrapedData } = props;
 
     const { site } = formData;
 
@@ -32,17 +34,22 @@ const Review = ({ setForm, formData, navigation }) => {
 
     useEffect(() => {
         if (response !== null) {
-            setData(response);
+            setData(response.editable);
+            setScrapedData(response.editable)
         }
     }, [response]);
 
+
+    function handleChange(newValue, index) {
+        onChange(newValue, index);
+    }
 
     return (
         <div className= "col-12 pt-3">  
             <h1 className="text-center">
                 
                 <a className="col-md-6" href={sites[site][1]} target="_blank">
-                    <img src={"./backend/logos/" + site + ".png"} alt="Logo" width="200" height="auto"/>
+                    <img src={"http://localhost:81/backend/logos/" + site + ".png"} alt="Logo" width="200" height="auto"/>
                 </a>
             </h1>
             {loading ? (
@@ -51,14 +58,14 @@ const Review = ({ setForm, formData, navigation }) => {
                 <div>
                     {error && (
                         <div>
-                            <p className="text-danger">{error.message}</p>
+                            <p className="text-danger display-4 text-center">{error.message}</p>
                         </div>
                     )}
                     <div>{ data && (
-                        data['status'] == 500 ? (
-                            <p className="text-danger">Errore: {data['statusText']}</p>
+                        response['status'] == 500 ? (
+                            <p className="text-danger display-4 text-center">Errore: {response['statusText']}</p>
                         ) : (
-                            <ReviewForm data={data.editable} />
+                            <ReviewForm data={data} onChange={handleChange}/>
                         )
                     )}</div>
                 </div>

@@ -1,9 +1,11 @@
 import React from "react";
 import { useForm, useStep } from "react-hooks-helper";
+import { useState } from 'react';
 
 import Sites from "./Sites";
 import Info from "./Info";
 import Review from "./Review";
+import Submit from "./Submit";
 
 import "./bootstrap-4.3.1-dist/css/bootstrap.min.css";
 import "./style.css";
@@ -35,16 +37,27 @@ const defaultData = {
     personas: true,
     cover: false,
     partialUpdate: false,
-    comicset: false,
     astorina_publication: "altro"
 };
 
 const MultiStepForm = () => {
     const [formData, setForm] = useForm(defaultData);
     const { step, navigation } = useStep({ initialStep: 0, steps });
+    const [scrapedData, setScrapedData] = useState([]);
     const { id } = step;
 
-    const props = { formData, setForm, navigation };
+    function handleChange(newValue, index) {
+
+        console.log(newValue);
+        let copyData = [...scrapedData];
+        console.log(copyData);
+        let changeData = {...copyData[index]};
+        copyData[index] = newValue;
+        console.log(copyData)
+        setScrapedData(copyData);
+    }
+
+    const props = { formData, setForm, navigation, scrapedData, setScrapedData };
 
     switch (id) {
         case "sites":
@@ -52,9 +65,9 @@ const MultiStepForm = () => {
         case "info":
             return <Info {...props} />;
         case "review":
-            return <Review {...props} />;
-        /*case "submit":
-            return <Submit {...props} />;*/
+            return <Review onChange={handleChange} {...props} />;
+        case "submit":
+            return <Submit {...props} />;
         default:
             return null;
     }
