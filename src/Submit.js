@@ -16,11 +16,9 @@ const sites = {
 
 const Submit = (props) => {
 
-  const { navigation, scrapedData, formData } = props;
+  const { navigation, scrapedData, siteData, defaultData, setInfoData } = props;
 
   const { go, previous} = navigation;
-
-  const { site } = formData;
 
   const { response, loading, error } = useAxios({
         method: 'post',
@@ -32,8 +30,8 @@ const Submit = (props) => {
         <div className= "col-12 pt-3">  
             <h1 className="text-center">
                 
-                <a className="col-md-6" href={sites[site][1]} target="_blank">
-                    <img src={"http://localhost:81/backend/logos/" + site + ".png"} alt="Logo" width="200" height="auto"/>
+                <a className="col-md-6" href={sites[siteData][1]} target="_blank">
+                    <img src={"http://localhost:81/backend/logos/" + siteData + ".png"} alt="Logo" width="200" height="auto"/>
                 </a>
             </h1>
             {loading ? (
@@ -64,7 +62,7 @@ const Submit = (props) => {
             )}
             {!loading &&
                 <div className="text-center form-group">
-                    <button onClick={() => go("sites")} className="btn btn-primary col-md-10 btn-lg mr-5 ml-5">Nuovo form</button>
+                    <button onClick={() => { go("sites"); setInfoData(defaultData); }} className="btn btn-primary col-md-10 btn-lg mr-5 ml-5">Nuovo form</button>
                 </div>
             }
         </div>

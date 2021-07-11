@@ -41,7 +41,6 @@ const defaultData = {
 };
 
 const MultiStepForm = () => {
-    const [formData, setForm] = useForm(defaultData);
     const { step, navigation } = useStep({ initialStep: 0, steps });
     const [scrapedData, setScrapedData] = useState([]);
     const [siteData, setSiteData] = useState('comicsbox');
@@ -55,28 +54,20 @@ const MultiStepForm = () => {
         setScrapedData(data);
     }
 
-    function handleInfoDataChange(newValue, name) {
-
-        let data = [...infoData];
-        data[name] = newValue;
-        setInfoData(data);
-    }
-
     const sitesProps = { siteData, setSiteData, navigation };
     const infoProps = { infoData, setInfoData, siteData, navigation };
     const reviewProps = { infoData, siteData, navigation, scrapedData, setScrapedData };
-
-    const props = { formData, setForm, navigation, scrapedData, setScrapedData, infoData, setInfoData, siteData, setSiteData };
+    const submitProps = { scrapedData, setScrapedData, siteData, setInfoData, defaultData, navigation };
 
     switch (id) {
         case "sites":
             return <Sites {...sitesProps} />;
         case "info":
-            return <Info onChange={handleInfoDataChange} {...infoProps} />;
+            return <Info {...infoProps} />;
         case "review":
             return <Review onChange={handleScrapedDataChange} {...reviewProps} />;
         case "submit":
-            return <Submit {...props} />;
+            return <Submit {...submitProps} />;
         default:
             return null;
     }
