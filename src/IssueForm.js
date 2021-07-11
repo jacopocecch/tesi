@@ -10,8 +10,6 @@ const IssueForm = (props) => {
 
 	const { value, index, onChange } = props;
 
-	console.log(value);
-
 	const [title, setTitle] = useState(undefined);
 	const [subtitle, setSubtitle] = useState(undefined);
 	const [releaseDate, setReleaseDate] = useState(undefined);
@@ -80,7 +78,28 @@ const IssueForm = (props) => {
 				}
 			}
 			, index);
-	}, [title])
+	}, [title, subtitle, releaseDate, coverPrice, coverPriceCurrency, description, isbn, pages, height, width, color, binding, authors, personas, image])
+
+	function removeAuthor(index){
+
+		var array = [...authors];
+		array.splice(index, 1);
+		setAuthors(array);
+	}
+
+	function removePersona(index){
+
+		var array = [...personas];
+		array.splice(index, 1);
+		setPersonas(array);
+	}
+
+	function changeRole(role, index){
+
+		var array = [...authors];
+		array[index]['id_role'] = role;
+		setAuthors(array);
+	}
 
 	return (
 		<div className="form-group col-md-12 float-left form-confirm">
@@ -97,7 +116,7 @@ const IssueForm = (props) => {
 	                div_class="col-md-12 float-left form-group"
             	/>
             }
-           	{typeof value.info.subtitle !== 'undefined' && 
+           	{typeof subtitle !== 'undefined' && 
 				<ItemForm
 	                label="Sottotitolo"
 	                name='subtitle'
@@ -109,7 +128,7 @@ const IssueForm = (props) => {
 	                div_class="col-md-12 float-left form-group"
             	/>
            	}
-           	{typeof value.info.release_date !== 'undefined' && 
+           	{typeof releaseDate !== 'undefined' && 
 				<ItemForm
 	                label="Data di uscita"
 	                name='release_date'
@@ -121,8 +140,8 @@ const IssueForm = (props) => {
 	                div_class="col-md-12 float-left form-group"
             	/>
            	}
-           	{typeof value.info.cover_price !== 'undefined' && 
-           		typeof value.info.cover_price_currency !== 'undefined' && (
+           	{typeof coverPrice !== 'undefined' && 
+           		typeof coverPriceCurrency !== 'undefined' && (
            		<>	
            			<label className="form-check-label ml-3"><b>Prezzo copertina:</b></label>
 		       		<div className="form-group form-check">
@@ -132,7 +151,7 @@ const IssueForm = (props) => {
 		                    name='cover_price_currency'
 		                    type="radio"
 		                    value='EUR'
-		                    defaultChecked={coverPriceCurrency === 'EUR'}
+		                    checked={coverPriceCurrency === 'EUR'}
 		                    onChange={(e) => {
 			                	setCoverPriceCurrency(e.target.value)
 			                }}
@@ -143,7 +162,7 @@ const IssueForm = (props) => {
 		                    name='cover_price_currency'
 		                    type="radio"
 		                    value='LIT'
-		                    defaultChecked={coverPriceCurrency === 'LIT'}
+		                    checked={coverPriceCurrency === 'LIT'}
 		                    onChange={(e) => {
 			                	setCoverPriceCurrency(e.target.value)
 			                }}
@@ -163,7 +182,7 @@ const IssueForm = (props) => {
 		       	</>
             	)
            	}
-			{typeof value.info.description !== 'undefined' && 
+			{typeof description !== 'undefined' && 
 				<ItemForm
 	                label="Descrizione"
 	                name='description'
@@ -175,7 +194,7 @@ const IssueForm = (props) => {
 	                div_class="col-md-12 float-left form-group"
             	/>
            	}
-           	{typeof value.info.isbn !== 'undefined' && 
+           	{typeof isbn !== 'undefined' && 
 				<ItemForm
 	                label="ISBN"
 	                name='isbn'
@@ -187,7 +206,7 @@ const IssueForm = (props) => {
 	                div_class="col-md-12 float-left form-group"
             	/>
            	}
-           	{typeof value.info.pages !== 'undefined' && 
+           	{typeof pages !== 'undefined' && 
 				<ItemForm
 	                label="Pagine"
 	                name="pages"
@@ -199,8 +218,8 @@ const IssueForm = (props) => {
 	                div_class="col-md-12 float-left form-group"
             	/>
            	}
-           	{typeof value.info.width !== 'undefined' && 
-           		typeof value.info.height !== 'undefined' && (
+           	{typeof width !== 'undefined' && 
+           		typeof height !== 'undefined' && (
            	    <>
 					<ItemForm
 		                label="Altezza"
@@ -225,7 +244,7 @@ const IssueForm = (props) => {
 	            </>
 	            )
            	}
-           	{typeof value.info.id_color !== 'undefined' && 
+           	{typeof color !== 'undefined' && 
 				<SelectDrop
                     label="Colore"
                     name="id_color"
@@ -234,9 +253,10 @@ const IssueForm = (props) => {
 	                	setColor(e.target.value)
 	                }}
                     type="colors"
+                    div_class="col-md-12 float-left form-group"
                 />
            	}
-           	{typeof value.info.id_binding !== 'undefined' && 
+           	{typeof binding !== 'undefined' && 
 				<SelectDrop
                     label="Rilegatura"
                     name="id_binding"
@@ -245,8 +265,70 @@ const IssueForm = (props) => {
 	                	setBinding(e.target.value)
 	                }}
                     type="bindings"
+                    div_class="col-md-12 float-left form-group"
                 />
            	}
+           	{authors.length > 0 && 
+           		<div className="col-md-12 float-left form-group">
+           		<label><b>Autori</b></label>
+				{authors.map((author, index) => {
+					return (
+						<div key={index}>
+							<ItemForm
+				                name={"id_authors.name."+index}
+				                type="text"
+				                readOnly
+				                value={author.name}
+				                /*onChange={(e) => {
+				                	setAuthors(e.target.value)
+				                }}*/
+				                div_class="col-md-6 float-left form-group"
+			            	/>
+			            	<SelectDrop
+			                    name={"id_authors.role."+index}
+			                    value={author.id_role}
+			                    onChange={(e) => {
+				                	changeRole(e.target.value, index)
+				                }}
+			                    type="roles"
+			                    div_class="col-md-5 float-left form-group"
+			                />
+			                <div className="form-group float-left mt-4">
+				                <button className="btn btn-outline-secondary" onClick={() => removeAuthor(index)}>
+				                	-
+				                </button>
+				            </div>
+			            </div>
+			        )}
+			    )}
+		        </div>
+			}
+			{personas.length > 0 && 
+           		<div className="col-md-12 float-left form-group">
+           		<label><b>Personaggi</b></label>
+				{personas.map((persona, index) => {
+					return (
+						<div key={index}>
+							<ItemForm
+				                name={"id_personas.name."+index}
+				                type="text"
+				                readOnly
+				                value={persona.name}
+				                /*onChange={(e) => {
+				                	setAuthors(e.target.value)
+				                }}*/
+				                div_class="col-md-11 float-left form-group"
+			            	/>
+			                <div className="form-group float-left mt-4">
+				                <button className="btn btn-outline-secondary" onClick={() => removePersona(index)}>
+				                	-
+				                </button>
+				            </div>
+			            </div>
+			        )}
+			    )}
+		        </div>
+			}
            	{typeof value.image !== 'undefined' && 
            		<div className="form-group">
 					<ItemForm

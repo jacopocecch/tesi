@@ -13,8 +13,6 @@ const ReviewForm = (props) => {
 		onChange(newValue, index);
 	}
 
-	console.log(data);
-
 	return (
 		<>
 			{data.map((value, index) => {

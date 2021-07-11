@@ -2,34 +2,11 @@ import React from "react";
 
 import SelectDrop from "./SelectDrop";
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-const defaultData = {
-    site: "comicsbox",
-    link: "",
-    series: "",
-    site_interval: "",
-    dex_interval: "",
-    title: "false",
-    date: true,
-    price: true,
-    description: true,
-    isbn: true,
-    pages: true,
-    format: true,
-    color: true,
-    binding: true,
-    contents: true,
-    authors: true,
-    personas: true,
-    cover: false,
-    partialUpdate: false,
-    astorina_publication: "altro"
-};
+const Sites = (props) => {
 
-const Sites = ({ setForm, formData, navigation }) => {
-
-    const { site } = formData;
+    const { navigation, siteData, setSiteData } = props;
 
     const { next } = navigation;
 
@@ -38,13 +15,16 @@ const Sites = ({ setForm, formData, navigation }) => {
             <h1 className="text-center">
                 ComiXtime Scraping
             </h1>
-            <div className="form-group">
+            <div className="form-group m-2">
                 <SelectDrop
                     label="Seleziona il sito"
                     name="site"
-                    value={site}
-                    onChange={setForm}
+                    value={siteData}
+                    onChange={(e) => {
+                        setSiteData(e.target.value)
+                    }}
                     type="sites"
+                    div_class="col-md-12 float-left form-group"
                 />
             </div>
             <div className="text-center form-group">

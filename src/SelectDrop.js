@@ -25,8 +25,20 @@ const bindings = [
     [5, "Brossurato con sovraccoperta"]
 ];
 
-const SelectDrop = ({ label, type, ...others }) => (
-    <div className="form-group float-left col-md-12">
+const roles = [
+    [1, "Sceneggiatura"],
+    [2, "Soggetto"],
+    [3, "Disegno"],
+    [4, "Colore"],
+    [5, "Copertina"],
+    [6, "Matite"],
+    [7, "Chine"],
+    [8, "Character design"],
+    [9, "Lettering"]
+];
+
+const SelectDrop = ({ label, type, div_class, ...others }) => (
+    <div className={div_class}>
         <label><b>{label}</b></label>
         <select className="form-control" {...others}>
             {(type === 'sites') ? (
@@ -37,11 +49,13 @@ const SelectDrop = ({ label, type, ...others }) => (
                 colors.map(([value, name]) => (
                     <option key={value} value={value}>{name}</option>
                 ))
-            ) : (
+            ) : (type === 'bindings') ? (
                 bindings.map(([value, name]) => (
                     <option key={value} value={value}>{name}</option>
                 ))
-            )}
+            ) : roles.map(([value, name]) => (
+                    <option key={value} value={value}>{name}</option>
+                ))}
         </select>
     </div>
 );

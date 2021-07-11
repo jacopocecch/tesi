@@ -44,28 +44,37 @@ const MultiStepForm = () => {
     const [formData, setForm] = useForm(defaultData);
     const { step, navigation } = useStep({ initialStep: 0, steps });
     const [scrapedData, setScrapedData] = useState([]);
+    const [siteData, setSiteData] = useState('comicsbox');
+    const [infoData, setInfoData] = useState(defaultData);
     const { id } = step;
 
-    function handleChange(newValue, index) {
+    function handleScrapedDataChange(newValue, index) {
 
-        console.log(newValue);
-        let copyData = [...scrapedData];
-        console.log(copyData);
-        let changeData = {...copyData[index]};
-        copyData[index] = newValue;
-        console.log(copyData)
-        setScrapedData(copyData);
+        let data = [...scrapedData];
+        data[index] = newValue;
+        setScrapedData(data);
     }
 
-    const props = { formData, setForm, navigation, scrapedData, setScrapedData };
+    function handleInfoDataChange(newValue, name) {
+
+        let data = [...infoData];
+        data[name] = newValue;
+        setInfoData(data);
+    }
+
+    const sitesProps = { siteData, setSiteData, navigation };
+    const infoProps = { infoData, setInfoData, siteData, navigation };
+    const reviewProps = { infoData, siteData, navigation, scrapedData, setScrapedData };
+
+    const props = { formData, setForm, navigation, scrapedData, setScrapedData, infoData, setInfoData, siteData, setSiteData };
 
     switch (id) {
         case "sites":
-            return <Sites {...props} />;
+            return <Sites {...sitesProps} />;
         case "info":
-            return <Info {...props} />;
+            return <Info onChange={handleInfoDataChange} {...infoProps} />;
         case "review":
-            return <Review onChange={handleChange} {...props} />;
+            return <Review onChange={handleScrapedDataChange} {...reviewProps} />;
         case "submit":
             return <Submit {...props} />;
         default:

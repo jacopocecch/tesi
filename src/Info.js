@@ -1,6 +1,7 @@
 import React from "react";
 
 import ItemForm from "./ItemForm";
+import { useState, useEffect } from 'react';
 
 const sites = {
     "comicsbox" : ["Comicsbox", "https://www.comicsbox.it/"],
@@ -13,9 +14,55 @@ const sites = {
     "astorina" : ["Astorina", "https://www.diabolik.it/commerce/"]
 };
 
-const Info = ({ setForm, formData, navigation }) => {
+const Info = (props) => {
 
-    const { site, link, series, site_interval, dex_interval, scrape_title, date, price, description, isbn, pages, format, color, binding, contents, authors, personas, cover, partialUpdate, astorina_publication } = formData;
+    const { navigation, infoData, setInfoData, siteData } = props;
+
+    const [link, setLink] = useState(infoData.link);
+    const [series, setSeries] = useState(infoData.series);
+    const [siteInterval, setSiteInterval] = useState(infoData.site_interval);
+    const [dexInterval, setDexInterval] = useState(infoData.dex_interval);
+    const [title, setTitle] = useState(infoData.title);
+    const [date, setDate] = useState(infoData.date);
+    const [description, setDescription] = useState(infoData.description);
+    const [price, setPrice] = useState(infoData.price);
+    const [isbn, setIsbn] = useState(infoData.isbn);
+    const [pages, setPages] = useState(infoData.pages);
+    const [format, setFormat] = useState(infoData.format);
+    const [color, setColor] = useState(infoData.color);
+    const [binding, setBinding] = useState(infoData.binding);
+    const [contents, setContents] = useState(infoData.contents);
+    const [authors, setAuthors] = useState(infoData.authors);
+    const [personas, setPersonas] = useState(infoData.personas);
+    const [cover, setCover] = useState(infoData.cover);
+    const [partialUpdate, setPartialUpdate] = useState(infoData.partialUpdate);
+    const [astorinaPublication, setAstorinaPublication] = useState(infoData.astorina_publication);
+
+    useEffect(() => {
+        setInfoData({
+            site: siteData,
+            link: link,
+            series: series,
+            site_interval: siteInterval,
+            dex_interval: dexInterval,
+            title: title,
+            date: date,
+            price: price,
+            description: description,
+            isbn: isbn,
+            pages: pages,
+            format: format,
+            color: color,
+            binding: binding,
+            contents: contents,
+            authors: authors,
+            personas: personas,
+            cover: cover,
+            partialUpdate: partialUpdate,
+            astorina_publication: astorinaPublication
+        })
+    }, [link, series, siteInterval, dexInterval, title, date, price, description, isbn, pages, format, color, binding, contents, authors, personas, cover, partialUpdate, astorinaPublication])
+
 
     const { next, previous } = navigation;
 
@@ -23,8 +70,8 @@ const Info = ({ setForm, formData, navigation }) => {
         <div className="div-step col-12">
             <h1 className="text-center">
                 
-                <a className="col-md-6" href={sites[site][1]} target="_blank">
-                    <img src={"http://localhost:81/backend/logos/" + site + ".png"} alt={sites[site][0]} width="200" height="auto"/>
+                <a className="col-md-6" href={sites[siteData][1]} target="_blank">
+                    <img src={"http://localhost:81/backend/logos/" + siteData + ".png"} alt={sites[siteData][0]} width="200" height="auto"/>
                 </a>
             </h1>
             <div className="form-row">
@@ -32,14 +79,18 @@ const Info = ({ setForm, formData, navigation }) => {
                     label="Link sito"
                     name="link"
                     value={link}
-                    onChange={setForm}
+                    onChange={(e) => {
+                        setLink(e.target.value)
+                    }}
                     div_class="col-md-6 float-left form-group"
                 />
                 <ItemForm
                     label="ID collana"
                     name="series"
                     value={series}
-                    onChange={setForm}
+                    onChange={(e) => {
+                        setSeries(e.target.value)
+                    }}
                     div_class="col-md-6 float-left form-group"
                 />
             </div>
@@ -47,147 +98,189 @@ const Info = ({ setForm, formData, navigation }) => {
                 <ItemForm
                     label="Numeri sito"
                     name="site_interval"
-                    value={site_interval}
-                    onChange={setForm}
+                    value={siteInterval}
+                    onChange={(e) => {
+                        setSiteInterval(e.target.value)
+                    }}
                     div_class="col-md-6 float-left form-group"
                 />
                 <ItemForm
                     label="Numeri collana DEX"
                     name="dex_interval"
-                    value={dex_interval}
-                    onChange={setForm}
+                    value={dexInterval}
+                    onChange={(e) => {
+                        setDexInterval(e.target.value)
+                    }}
                     div_class="col-md-6 float-left form-group"
                 />
             </div>
             <div className="col">
                 <div className="form-group col-md-12 float-left form-confirm">
                     <p><b>Operazione sui dati</b></p>
-                    {siteHasTitle(site) && 
+                    {siteHasTitle(siteData) && 
                         <div className="form-check form-group">
                             <ItemForm
                                 label="Titolo"
                                 name="title"
                                 type="radio"
                                 value='title'
-                                onChange={setForm}
+                                checked={title === 'title'}
+                                onChange={(e) => {
+                                    setTitle(e.target.value)
+                                }}
                             />
                             <ItemForm
                                 label="Sottotitolo"
                                 name="title"
                                 type="radio"
                                 value='subtitle'
-                                onChange={setForm}
+                                checked={title === 'subtitle'}
+                                onChange={(e) => {
+                                    setTitle(e.target.value)
+                                }}
                             />
                             <ItemForm
                                 label="No"
                                 name="title"
                                 type="radio"
                                 value='false'
-                                defaultChecked
-                                onChange={setForm}
+                                checked={title === 'false'}
+                                onChange={(e) => {
+                                    setTitle(e.target.value)
+                                }}
                             />
                         </div>
                     }
                     <div className="form-group">
-                        {siteHasDate(site) && 
+                        {siteHasDate(siteData) && 
                             <ItemForm
                                 label="Data"
                                 name="date"
                                 type="checkbox"
-                                value={date}
-                                defaultChecked
-                                onChange={setForm}
+                                checked={date}
+                                onChange={(e) => {
+                                    setDate(e.target.checked)
+                                }}
                                 div_class="form-check"
                             />
                         }
-                        {siteHasPrice(site) && 
+                        {siteHasPrice(siteData) && 
                             <ItemForm
                                 label="Prezzo"
                                 name="price"
                                 type="checkbox"
-                                value={price}
-                                defaultChecked
-                                onChange={setForm}
+                                checked={price}
+                                onChange={(e) => {
+                                    setPrice(e.target.checked)
+                                }}
                                 div_class="form-check"
                             />
                         }
-                        {siteHasDescription(site) && 
+                        {siteHasDescription(siteData) && 
                             <ItemForm
                                 label="Descrizione"
                                 name="description"
                                 type="checkbox"
                                 checked={description}
-                                onChange={setForm}
+                                onChange={(e) => {
+                                    setDescription(e.target.checked)
+                                }}
                                 div_class="form-check"
                             />
                         }
-                        {siteHasISBN(site) && 
+                        {siteHasISBN(siteData) && 
                             <ItemForm
                                 label="ISBN"
                                 name="isbn"
                                 type="checkbox"
                                 checked={isbn}
-                                onChange={setForm}
+                                onChange={(e) => {
+                                    setIsbn(e.target.checked)
+                                }}
                                 div_class="form-check"
                             />
                         }
-                        {siteHasPages(site) && 
+                        {siteHasPages(siteData) && 
                             <ItemForm
                                 label="Pagine"
                                 name="pages"
                                 type="checkbox"
                                 checked={pages}
-                                onChange={setForm}
+                                onChange={(e) => {
+                                    setPages(e.target.checked)
+                                }}
                                 div_class="form-check"
                             />
                         }
-                        {siteHasFormat(site) && 
+                        {siteHasFormat(siteData) && 
                             <ItemForm
                                 label="Formato"
                                 name="format"
                                 type="checkbox"
                                 checked={format}
-                                onChange={setForm}
+                                onChange={(e) => {
+                                    setFormat(e.target.checked)
+                                }}
                                 div_class="form-check"
                             />
                         }
-                        {siteHasColor(site) && 
+                        {siteHasColor(siteData) && 
                             <ItemForm
                                 label="Colore"
                                 name="color"
                                 type="checkbox"
                                 checked={color}
-                                onChange={setForm}
+                                onChange={(e) => {
+                                    setColor(e.target.checked)
+                                }}
                                 div_class="form-check"
                             />
                         }
-                        {siteHasBinding(site) && 
+                        {siteHasBinding(siteData) && 
                             <ItemForm
                                 label="Rilegatura"
                                 name="binding"
                                 type="checkbox"
                                 checked={binding}
-                                onChange={setForm}
+                                onChange={(e) => {
+                                    setBinding(e.target.checked)
+                                }}
                                 div_class="form-check"
                             />
                         }
-                        {siteHasAuthors(site) && 
+                        {siteHasContents(siteData) && 
+                            <ItemForm
+                                label="Contenuti"
+                                name="contents"
+                                type="checkbox"
+                                checked={contents}
+                                onChange={(e) => {
+                                    setContents(e.target.checked)
+                                }}
+                                div_class="form-check"
+                            />
+                        }
+                        {siteHasAuthors(siteData) && 
                             <ItemForm
                                 label="Autori"
                                 name="authors"
                                 type="checkbox"
                                 checked={authors}
-                                onChange={setForm}
+                                onChange={(e) => {
+                                    setAuthors(e.target.checked)
+                                }}
                                 div_class="form-check"
                             />
                         }
-                        {siteHasPersonas(site) && 
+                        {siteHasPersonas(siteData) && 
                             <ItemForm
                                 label="Personaggi"
                                 name="personas"
                                 type="checkbox"
                                 checked={personas}
-                                onChange={setForm}
+                                onChange={(e) => {
+                                    setPersonas(e.target.checked)
+                                }}
                                 div_class="form-check"
                             />
                         }
@@ -196,7 +289,9 @@ const Info = ({ setForm, formData, navigation }) => {
                             name="cover"
                             type="checkbox"
                             checked={cover}
-                            onChange={setForm}
+                            onChange={(e) => {
+                                setCover(e.target.checked)
+                            }}
                             div_class="form-check"
                         />
                         <ItemForm
@@ -204,40 +299,53 @@ const Info = ({ setForm, formData, navigation }) => {
                             name="partialUpdate"
                             type="checkbox"
                             checked={partialUpdate}
-                            onChange={setForm}
+                            onChange={(e) => {
+                                setPartialUpdate(e.target.checked)
+                            }}
                             div_class="form-check"
                         />
                     </div>
-                    {site == "astorina" && 
+                    {siteData == "astorina" && 
                         <div className="form-check form-group">
                             <ItemForm
                                 label="Inedito"
                                 name="astorina_publication"
                                 type="radio"
                                 value='inedito'
-                                onChange={setForm}
+                                checked={astorinaPublication === 'inedito'}
+                                onChange={(e) => {
+                                    setAstorinaPublication(e.target.value)
+                                }}
                             />
                             <ItemForm
                                 label="R"
                                 name="astorina_publication"
                                 type="radio"
                                 value='R'
-                                onChange={setForm}
+                                checked={astorinaPublication === 'R'}
+                                onChange={(e) => {
+                                    setAstorinaPublication(e.target.value)
+                                }}
                             />
                             <ItemForm
                                 label="SWISSS"
                                 name="astorina_publication"
                                 type="radio"
                                 value='SWISSS'
-                                onChange={setForm}
+                                checked={astorinaPublication === 'SWISSS'}
+                                onChange={(e) => {
+                                    setAstorinaPublication(e.target.value)
+                                }}
                             />
                             <ItemForm
                                 label="Altro"
                                 name="astorina_publication"
                                 type="radio"
                                 value='altro'
-                                defaultChecked
-                                onChange={setForm}
+                                checked={astorinaPublication === 'altro'}
+                                onChange={(e) => {
+                                    setAstorinaPublication(e.target.value)
+                                }}
                             />
                         </div>
                     }
@@ -251,59 +359,64 @@ const Info = ({ setForm, formData, navigation }) => {
     );
 };
 
-function siteHasTitle(site){
+function siteHasTitle(siteData){
 
-    return (site == "comicsbox_bonelli" || site == 'astorina' || site == "fumetto_online") ? false : true;
+    return (siteData == "comicsbox_bonelli" || siteData == 'astorina' || siteData == "fumetto_online") ? false : true;
 }
 
-function siteHasDate(site){
+function siteHasDate(siteData){
 
-    return site == "comicsbox_bonelli" ? false : true;
+    return siteData == "comicsbox_bonelli" ? false : true;
 }
 
-function siteHasPrice(site){
+function siteHasPrice(siteData){
 
-    return (site == "comicsbox_bonelli" || site == "comicsbox" || site == "fumetto_online") ? false : true;
+    return (siteData == "comicsbox_bonelli" || siteData == "comicsbox" || siteData == "fumetto_online") ? false : true;
 }
 
-function siteHasDescription(site){
+function siteHasDescription(siteData){
 
-    return (site == "archivio_marvel" || site == "inducks") ? false : true;
+    return (siteData == "archivio_marvel" || siteData == "inducks") ? false : true;
 }
 
-function siteHasISBN(site){
+function siteHasISBN(siteData){
 
-    return (site == "fumetto_online" || site == "bonelli") ? true : false;
+    return (siteData == "fumetto_online" || siteData == "bonelli") ? true : false;
 }
 
-function siteHasPages(site){
+function siteHasPages(siteData){
 
-    return (site == "fumetto_online" || site == "archivio_marvel" || site == "inducks" || site == "bonelli") ? true : false;
+    return (siteData == "fumetto_online" || siteData == "archivio_marvel" || siteData == "inducks" || siteData == "bonelli") ? true : false;
 }
 
-function siteHasFormat(site){
+function siteHasFormat(siteData){
 
-    return (site == "comicsbox" || site == "animeclick" || site == "astorina") ? false : true;
+    return (siteData == "comicsbox" || siteData == "animeclick" || siteData == "astorina") ? false : true;
 }
 
-function siteHasColor(site){
+function siteHasColor(siteData){
 
-    return (site == "fumetto_online" || site == "archivio_marvel" || site == "bonelli") ? true : false;
+    return (siteData == "fumetto_online" || siteData == "archivio_marvel" || siteData == "bonelli") ? true : false;
 }
 
-function siteHasBinding(site){
+function siteHasBinding(siteData){
 
-    return (site == "fumetto_online" || site == "archivio_marvel" || site == "bonelli") ? true : false;
+    return (siteData == "fumetto_online" || siteData == "archivio_marvel" || siteData == "bonelli") ? true : false;
 }
 
-function siteHasAuthors(site){
+function siteHasAuthors(siteData){
 
-    return (site == "animeclick" || site == "fumetto_online" || site == "archivio_marvel") ? false : true;
+    return (siteData == "animeclick" || siteData == "fumetto_online" || siteData == "archivio_marvel") ? false : true;
 }
 
-function siteHasPersonas(site){
+function siteHasPersonas(siteData){
 
-    return (site == "inducks") ? true : false;
+    return (siteData == "inducks") ? true : false;
+}
+
+function siteHasContents(siteData){
+
+    return (siteData == "comicsbox") ? true : false;
 }
 
 export default Info;
