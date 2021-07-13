@@ -1,7 +1,5 @@
 import React from "react";
-import { useAxios } from "./useAxios";
 import { useState, useEffect } from 'react';
-import { useForm } from "react-hooks-helper";
 
 import ItemForm from "./ItemForm"
 import SelectDrop from "./SelectDrop"
@@ -78,7 +76,7 @@ const IssueForm = (props) => {
 				}
 			}
 			, index);
-	}, [title, subtitle, releaseDate, coverPrice, coverPriceCurrency, description, isbn, pages, height, width, color, binding, authors, personas, image])
+	}, [title, subtitle, releaseDate, coverPrice, coverPriceCurrency, description, isbn, pages, height, width, color, binding, authors, personas, image, index])
 
 	function removeAuthor(index){
 
@@ -343,6 +341,7 @@ const IssueForm = (props) => {
 	            	/>
 	            	<img
 	            		src={image}
+	            		alt="Cover"
 	            		width="200px"
 	            		className="col-md-3"
 	            	/>

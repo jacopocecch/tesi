@@ -38,6 +38,8 @@ const Info = (props) => {
     const [partialUpdate, setPartialUpdate] = useState(infoData.partialUpdate);
     const [astorinaPublication, setAstorinaPublication] = useState(infoData.astorina_publication);
 
+    const [errors, setErrors] = useState([]);
+
     useEffect(() => {
         setInfoData({
             site: siteData,
@@ -61,7 +63,38 @@ const Info = (props) => {
             partialUpdate: partialUpdate,
             astorina_publication: astorinaPublication
         })
-    }, [link, series, siteInterval, dexInterval, title, date, price, description, isbn, pages, format, color, binding, contents, authors, personas, cover, partialUpdate, astorinaPublication])
+    }, [link, series, siteInterval, dexInterval, title, date, price, description, isbn, pages, format, color, binding, contents, authors, personas, cover, partialUpdate, astorinaPublication, siteData])
+
+    function handleValidation(){
+        var fieldErrors = {};
+
+        if(link.length === 0){
+            fieldErrors['link'] = "Il campo non può essere vuoto";
+        }
+
+        if(series.length === 0){
+            fieldErrors['series'] = "Il campo non può essere vuoto";
+        }
+
+        if(siteInterval.length === 0){
+            fieldErrors['siteInterval'] = "Il campo non può essere vuoto";
+        }
+
+        if(dexInterval.length === 0){
+            fieldErrors['dexInterval'] = "Il campo non può essere vuoto";
+        }
+
+        if(!checkSelected(siteData, title, date, price, description, isbn, pages, format, color, binding, contents, authors, personas, cover)){
+            fieldErrors['selected'] = "Nessun dato selezionato";
+
+        }
+
+        setErrors(fieldErrors);
+    }
+
+    useEffect(() => {
+        handleValidation()
+    }, [link, series, siteInterval, dexInterval, title, date, price, description, isbn, pages, format, color, binding, contents, authors, personas, cover, siteData])
 
 
     const { next, previous } = navigation;
@@ -83,6 +116,7 @@ const Info = (props) => {
                         setLink(e.target.value)
                     }}
                     div_class="col-md-6 float-left form-group"
+                    error={errors['link']}
                 />
                 <ItemForm
                     label="ID collana"
@@ -92,6 +126,7 @@ const Info = (props) => {
                         setSeries(e.target.value)
                     }}
                     div_class="col-md-6 float-left form-group"
+                    error={errors['series']}
                 />
             </div>
             <div className="form-row">
@@ -103,6 +138,7 @@ const Info = (props) => {
                         setSiteInterval(e.target.value)
                     }}
                     div_class="col-md-6 float-left form-group"
+                    error={errors['siteInterval']}
                 />
                 <ItemForm
                     label="Numeri collana DEX"
@@ -112,6 +148,7 @@ const Info = (props) => {
                         setDexInterval(e.target.value)
                     }}
                     div_class="col-md-6 float-left form-group"
+                    error={errors['dexInterval']}
                 />
             </div>
             <div className="col">
@@ -305,7 +342,7 @@ const Info = (props) => {
                             div_class="form-check"
                         />
                     </div>
-                    {siteData == "astorina" && 
+                    {siteData === "astorina" && 
                         <div className="form-check form-group">
                             <ItemForm
                                 label="Inedito"
@@ -349,11 +386,12 @@ const Info = (props) => {
                             />
                         </div>
                     }
+                    <span className="text-danger">{errors['selected']}</span>
                 </div>
             </div>         
             <div className="text-center form-group">
                 <button onClick={previous} className="btn btn-secondary col-md-5 btn-lg mr-5 ml-5">Indietro</button>
-                <button onClick={next} className="btn btn-primary col-md-5 btn-lg mr-5 ml-5">Avanti</button>
+                <button onClick={next} disabled={Object.keys(errors).length !== 0} className="btn btn-primary col-md-5 btn-lg mr-5 ml-5">Avanti</button>
             </div>
         </div>
     );
@@ -361,62 +399,99 @@ const Info = (props) => {
 
 function siteHasTitle(siteData){
 
-    return (siteData == "comicsbox_bonelli" || siteData == 'astorina' || siteData == "fumetto_online") ? false : true;
+    return (siteData === "comicsbox_bonelli" || siteData === 'astorina' || siteData === "fumetto_online") ? false : true;
 }
 
 function siteHasDate(siteData){
 
-    return siteData == "comicsbox_bonelli" ? false : true;
+    return siteData === "comicsbox_bonelli" ? false : true;
 }
 
 function siteHasPrice(siteData){
 
-    return (siteData == "comicsbox_bonelli" || siteData == "comicsbox" || siteData == "fumetto_online") ? false : true;
+    return (siteData === "comicsbox_bonelli" || siteData === "comicsbox" || siteData === "fumetto_online") ? false : true;
 }
 
 function siteHasDescription(siteData){
 
-    return (siteData == "archivio_marvel" || siteData == "inducks") ? false : true;
+    return (siteData === "archivio_marvel" || siteData === "inducks") ? false : true;
 }
 
 function siteHasISBN(siteData){
 
-    return (siteData == "fumetto_online" || siteData == "bonelli") ? true : false;
+    return (siteData === "fumetto_online" || siteData === "bonelli") ? true : false;
 }
 
 function siteHasPages(siteData){
 
-    return (siteData == "fumetto_online" || siteData == "archivio_marvel" || siteData == "inducks" || siteData == "bonelli") ? true : false;
+    return (siteData === "fumetto_online" || siteData === "archivio_marvel" || siteData === "inducks" || siteData === "bonelli") ? true : false;
 }
 
 function siteHasFormat(siteData){
 
-    return (siteData == "comicsbox" || siteData == "animeclick" || siteData == "astorina") ? false : true;
+    return (siteData === "comicsbox" || siteData === "animeclick" || siteData === "astorina") ? false : true;
 }
 
 function siteHasColor(siteData){
 
-    return (siteData == "fumetto_online" || siteData == "archivio_marvel" || siteData == "bonelli") ? true : false;
+    return (siteData === "fumetto_online" || siteData === "archivio_marvel" || siteData === "bonelli") ? true : false;
 }
 
 function siteHasBinding(siteData){
 
-    return (siteData == "fumetto_online" || siteData == "archivio_marvel" || siteData == "bonelli") ? true : false;
+    return (siteData === "fumetto_online" || siteData === "archivio_marvel" || siteData === "bonelli") ? true : false;
 }
 
 function siteHasAuthors(siteData){
 
-    return (siteData == "animeclick" || siteData == "fumetto_online" || siteData == "archivio_marvel") ? false : true;
+    return (siteData === "animeclick" || siteData === "fumetto_online" || siteData === "archivio_marvel") ? false : true;
 }
 
 function siteHasPersonas(siteData){
 
-    return (siteData == "inducks") ? true : false;
+    return (siteData === "inducks") ? true : false;
 }
 
 function siteHasContents(siteData){
 
-    return (siteData == "comicsbox") ? true : false;
+    return (siteData === "comicsbox") ? true : false;
+}
+
+function checkSelected(site, title, date, price, description, isbn, pages, format, color, binding, contents, authors, personas, cover){
+
+    var selected = true;
+
+    switch(site){
+        case 'comicsbox':
+            selected = date || description || contents || authors || cover || title !== 'false';
+            break;
+        case 'comicsbox_bonelli':
+            selected = description || format || authors || cover;
+            break;
+        case 'animeclick':
+            selected = date || price || description || cover;
+            break;
+        case 'fumetto_online':
+            selected = date || description || isbn || pages || format || color || binding || cover;
+            break;
+        case 'archivio_marvel':
+            selected = date || price || pages || format || color || binding || cover || title !== 'false';
+            break;
+        case 'inducks':
+            selected = date || price || pages || format || authors || personas || cover || title !== 'false';
+            break;
+        case 'bonelli':
+            selected = date || price || description || isbn || pages || format || color || binding || authors || cover || title !== 'false';
+            break;
+        case 'astorina':
+            selected = date || price || description || authors || cover;
+            break;
+        default:
+            selected = false;
+            break;
+    }
+
+    return selected;
 }
 
 export default Info;

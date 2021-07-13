@@ -3,7 +3,6 @@ import qs from 'qs';
 import { useAxios } from "./useAxios";
 import { useState, useEffect } from 'react';
 
-import ItemForm from "./ItemForm";
 import ReviewForm from "./ReviewForm";
 
 const sites = {
@@ -19,7 +18,7 @@ const sites = {
 
 const Review = (props) => {
 
-    const { formData, setForm, navigation, onChange, setScrapedData, infoData, siteData } = props;
+    const { navigation, onChange, setScrapedData, infoData, siteData } = props;
 
     const { response, loading, error } = useAxios({
         method: 'post',
@@ -65,7 +64,7 @@ const Review = (props) => {
                         </div>
                     )}
                     <div>{ data && (
-                        response['status'] == 500 ? (
+                        response['status'] === 500 ? (
                             <p className="text-danger h1 text-center m-5">Errore: {response['statusText']}</p>
                         ) : (
                             <ReviewForm data={data} onChange={handleChange}/>

@@ -1,7 +1,6 @@
 import React from "react";
 import qs from 'qs';
 import { useAxios } from "./useAxios";
-import { useState, useEffect } from 'react';
 
 const sites = {
     "comicsbox" : ["Comicsbox", "https://www.comicsbox.it/"],
@@ -49,7 +48,7 @@ const Submit = (props) => {
                         </div>
                     )}
                     <div>{ response && (
-                        response['status'] == 500 ? (
+                        response['status'] === 500 ? (
                             <p className="text-danger h1 text-center m-5">Errore: {response['statusText']}</p>
                         ) : (
                             <div className="m-5">
@@ -63,6 +62,11 @@ const Submit = (props) => {
             {!loading &&
                 <div className="text-center form-group">
                     <button onClick={() => { go("sites"); setInfoData(defaultData); }} className="btn btn-primary col-md-10 btn-lg mr-5 ml-5">Nuovo form</button>
+                </div>
+            }
+            {(error || (response && response['status'] === 500)) &&
+                <div className="text-center form-group">
+                    <button onClick={previous} className="btn btn-secondary col-md-5 btn-lg mr-5 ml-5">Indietro</button>
                 </div>
             }
         </div>

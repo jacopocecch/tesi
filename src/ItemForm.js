@@ -1,11 +1,12 @@
 import React from "react";
 
-const ItemForm = ({ label, children, type = "text", div_class, ...otherProps }) => (
+const ItemForm = ({ label, children, type = "text", div_class, error, ...otherProps }) => (
     <div className={div_class}>
         {(type === "text" || type === "date") ? (
             <>
                 <label><b>{label}</b></label>
                 <input type={type} {...otherProps} className="form-control"/>
+                <span className="text-danger">{error}</span>
             </>
         ) : (type === "textarea") ? (
             <>

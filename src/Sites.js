@@ -2,8 +2,6 @@ import React from "react";
 
 import SelectDrop from "./SelectDrop";
 
-import { useState, useEffect } from 'react';
-
 const Sites = (props) => {
 
     const { navigation, siteData, setSiteData } = props;
@@ -13,7 +11,7 @@ const Sites = (props) => {
     return (
         <div className= "col-12 pt-3">
             <h1 className="text-center">
-                ComiXtime Scraping
+                <img src={"http://localhost:81/backend/logos/comixtime.png"} alt="ComiXtime" width="300" height="auto"/>
             </h1>
             <div className="form-group m-2">
                 <SelectDrop
