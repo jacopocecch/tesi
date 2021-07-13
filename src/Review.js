@@ -3,7 +3,7 @@ import qs from 'qs';
 import { useAxios } from "./useAxios";
 import { useState, useEffect } from 'react';
 
-import ReviewForm from "./ReviewForm";
+import IssueForm from "./IssueForm";
 
 const sites = {
     "comicsbox" : ["Comicsbox", "https://www.comicsbox.it/"],
@@ -67,7 +67,11 @@ const Review = (props) => {
                         response['status'] === 500 ? (
                             <p className="text-danger h1 text-center m-5">Errore: {response['statusText']}</p>
                         ) : (
-                            <ReviewForm data={data} onChange={handleChange}/>
+                            data.map((value, index) => {
+                                return (
+                                    <IssueForm key={value.id} value={value} index={index} onChange={handleChange}/>
+                                );
+                            })
                         )
                     )}</div>
                 </div>

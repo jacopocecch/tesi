@@ -102,6 +102,9 @@ const IssueForm = (props) => {
 	return (
 		<div className="form-group col-md-12 float-left form-confirm">
 			<h3>{value.title} (ID {value.id})</h3>
+			{!value.info && !value.image && 
+				<p className="text-danger h5 m-3">Nessun dato trovato sul sito</p>
+			}
 			{typeof title !== 'undefined' && 
 				<ItemForm
 	                label="Titolo"

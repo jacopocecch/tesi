@@ -386,7 +386,7 @@ const Info = (props) => {
                             />
                         </div>
                     }
-                    <span className="text-danger">{errors['selected']}</span>
+                    <small className="text-danger">{errors['selected']}</small>
                 </div>
             </div>         
             <div className="text-center form-group">

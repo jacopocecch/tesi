@@ -6,7 +6,9 @@ const ItemForm = ({ label, children, type = "text", div_class, error, ...otherPr
             <>
                 <label><b>{label}</b></label>
                 <input type={type} {...otherProps} className="form-control"/>
-                <span className="text-danger">{error}</span>
+                {error && 
+                    <small className="text-danger form-text">{error}</small>
+                }
             </>
         ) : (type === "textarea") ? (
             <>
