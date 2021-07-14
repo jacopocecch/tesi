@@ -280,9 +280,6 @@ const IssueForm = (props) => {
 				                type="text"
 				                readOnly
 				                value={author.name}
-				                /*onChange={(e) => {
-				                	setAuthors(e.target.value)
-				                }}*/
 				                div_class="col-md-6 float-left form-group"
 			            	/>
 			            	<SelectDrop
